@@ -111,13 +111,16 @@ st.set_page_config(layout="wide")
 with st.sidebar:
     st.markdown("## 🔧 Einstellungen")
     r = st.slider("Kompressionsverhältnis r", 10.0, 25.0, 18.0, 0.1)
-st.caption("Typisch: 16–20 für moderne Diesel, 10–14 für Ottomotoren")
+    st.caption("Typisch: 16–20 für moderne Diesel, 10–14 für Ottomotoren")
+
     rho = st.slider("Spreizungsverhältnis ρ", 1.1, 3.0, 2.0, 0.01)
-st.caption("Typisch: 1.8–2.5 bei Direkteinspritzung")
+    st.caption("Typisch: 1.8–2.5 bei Direkteinspritzung")
+
     kappa = st.slider("Adiabatenexponent κ", 1.2, 1.67, 1.4, 0.01)
-st.caption("Typisch: 1.3–1.4 für Luft bei Raumtemperatur")
+    st.caption("Typisch: 1.3–1.4 für Luft bei Raumtemperatur")
+
     alpha = st.slider("Anteil isochorer Verbrennung (Seliger)", 0.0, 1.0, 0.5, 0.05)
-st.caption("0 = Diesel, 1 = Otto, typisch ca. 0.3–0.6")
+    st.caption("0 = Diesel, 1 = Otto, typisch ca. 0.3–0.6")
 
     st.markdown("---")
     st.markdown("### 🔍 Abschnitte anzeigen")
@@ -129,10 +132,10 @@ st.caption("0 = Diesel, 1 = Otto, typisch ca. 0.3–0.6")
 
 st.markdown(r'''
 ### Wirkungsgradformeln
-- Otto: $\eta_O = 1 - \frac{1}{r^{\kappa - 1}}$
-- Diesel: $\eta_D = 1 - \frac{1}{r^{\kappa - 1}} \cdot \frac{\rho^{\kappa} - 1}{\kappa(\rho - 1)}$
-- Seliger (explizit): $\eta_S = 1 - \frac{1}{r^{\kappa - 1}} \left[ \frac{\rho^{\kappa} - 1}{\kappa(\rho - 1)} + \alpha \left( \frac{\rho^{\kappa} - 1}{\rho^{\kappa}} - \ln(\rho) \right) \right]$
-- Seliger (vereinfacht): $\eta_S = (1 - \alpha) \cdot \eta_D + \alpha \cdot \eta_O$
+- Otto: $η_O = 1 - \frac{1}{r^{\kappa - 1}}$
+- Diesel: $η_D = 1 - \frac{1}{r^{\kappa - 1}} \cdot \frac{\rho^{\kappa} - 1}{\kappa(\rho - 1)}$
+- Seliger (explizit): $η_S = 1 - \frac{1}{r^{\kappa - 1}} \left[ \frac{\rho^{\kappa} - 1}{\kappa(\rho - 1)} + \alpha \left( \frac{\rho^{\kappa} - 1}{\rho^{\kappa}} - \ln(\rho) \right) \right]$
+- Seliger (vereinfacht): $η_S = (1 - \alpha) \cdot \eta_D + \alpha \cdot \eta_O$
 ''')
 
 fig = plot_processes(r, rho, kappa, alpha, show_komp, show_isochor, show_isobar, show_exp, show_abgabe)
