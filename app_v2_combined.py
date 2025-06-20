@@ -33,9 +33,7 @@ colors = {
     "waermeabgabe": "gray"
 }
 
-def plot_processes(r, rho, kappa, alpha, show_komp, show_isochor, show_isobar, show_exp, show_abgabe,
-                   real_combustion=False, real_losses=False, real_friction=False, real_exhaust=False,
-                   real_combustion_incomplete=False, real_mixture=False, real_kappa=False):
+def plot_processes(r, rho, kappa, alpha, show_komp, show_isochor, show_isobar, show_exp, show_abgabe):
     V1 = 1.0
     V2 = V1 / r
     V3 = V2 * rho
@@ -49,20 +47,6 @@ def plot_processes(r, rho, kappa, alpha, show_komp, show_isochor, show_isobar, s
         ax.set_ylabel("Druck (p)")
         ax.grid(True)
 
-        # Realeffekte simulieren (visuelle Abweichungen)
-        if real_combustion:
-            ax.plot([V2*0.98, V2*1.05], [p2, p2*2.7], linestyle='--', color='purple', label='Verzögerte Verbrennung')
-        if real_losses:
-            ax.plot([V1, V2], [1 / V1**kappa * 0.85, 1 / V2**kappa * 0.85], linestyle=':', color='black', label='Wärmeverluste')
-        if real_friction:
-            ax.plot([V1, V1], [0, 1 / V1**kappa * 0.1], linestyle=':', color='brown', label='Reibungsverlust')
-        if real_exhaust:
-            ax.plot([V1, V1*1.05], [1 / V1**kappa * 0.4, 1 / V1**kappa * 0.4], linestyle='--', color='gray', label='Auslassverluste')
-        if real_combustion_incomplete:
-            ax.plot([V2, V2], [p2, p2*2.2], linestyle='--', color='orange', label='Unvollst. Verbrennung')
-        if real_mixture:
-            ax.plot([V2*0.95, V2*1.02], [p2*0.9, p2*2.4], linestyle='--', color='cyan', label='Gemischbildung')
-        if real_kappa:
             ax.plot([V2, V1], [(1 / V2**(kappa*0.95)) * 0.95, (1 / V1**(kappa*0.95)) * 0.95], linestyle='--', color='green', label='κ variabel')
         
 
@@ -149,14 +133,7 @@ with st.sidebar:
     show_exp = st.checkbox("Expansion", value=True)
     show_abgabe = st.checkbox("Wärmeabgabe", value=True)
 
-    st.markdown("### Realeffekte ein-/ausblenden")
-    real_combustion = st.checkbox("Realistische Verbrennung", value=False)
-    real_losses = st.checkbox("Wärmeverluste", value=False)
-    real_friction = st.checkbox("Mechanische Verluste", value=False)
-    real_exhaust = st.checkbox("Ladungswechselverluste", value=False)
-    real_combustion_incomplete = st.checkbox("Unvollständige Verbrennung", value=False)
-    real_mixture = st.checkbox("Inhomogene Gemischbildung", value=False)
-    real_kappa = st.checkbox("Temperaturabhängiger κ", value=False)
+    
 
     st.markdown("#### Formelübersicht")
     st.markdown("- r = V1 / V2")
@@ -171,7 +148,5 @@ st.markdown(r'''
 - Seliger (vereinfacht): $η_S = (1 - \alpha) \cdot \eta_D + \alpha \cdot \eta_O$
 ''')
 
-fig = plot_processes(r, rho, kappa, alpha, show_komp, show_isochor, show_isobar, show_exp, show_abgabe,
-                       real_combustion, real_losses, real_friction, real_exhaust,
-                       real_combustion_incomplete, real_mixture, real_kappa)
+fig = plot_processes(r, rho, kappa, alpha, show_komp, show_isochor, show_isobar, show_exp, show_abgabe)
 st.pyplot(fig, use_container_width=True)
