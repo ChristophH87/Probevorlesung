@@ -1,13 +1,10 @@
 # Der folgende Code ist eine aktualisierte Version von `app.py` mit:
-# 1. Vergrößerten Diagrammen (figsize explizit größer und Streamlit-Anzeige optimiert)
-# 2. Korrekt gerenderten Latex-Formeln
-# 3. Checkboxen für Prozessabschnitte getrennt nach Verbrennung und Expansion
+# - Bruchdarstellung der Wirkungsgradformeln als lesbarer Text (kein LaTeX)
 
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Schrift- und Liniengröße zurücksetzen
 plt.rcParams.update({
     'font.size': 44,
     'axes.titlesize': 52,
@@ -18,7 +15,6 @@ plt.rcParams.update({
     'lines.linewidth': 8
 })
 
-# Wirkungsgrad-Funktionen
 def otto_efficiency(r, kappa):
     return 1 - 1 / r**(kappa - 1)
 
@@ -128,12 +124,11 @@ with st.sidebar:
     show_exp = st.checkbox("Expansion", value=True)
     show_abgabe = st.checkbox("Wärmeabgabe", value=True)
 
-# Wirkungsgradformeln als einfache Textblöcke anzeigen
 st.markdown("""
-### η-Wirkungsgradformeln
-- Otto: η_O = 1 - 1 / r^(κ - 1)
+### Wirkungsgradformeln
+- Otto: η_O = 1 - (1 / r^(κ - 1))
 - Diesel: η_D = 1 - (1 / r^(κ - 1)) * ((ρ^κ - 1) / (κ * (ρ - 1)))
-- Seliger (explizit): η_S = 1 - (1 / r^(κ - 1)) * [ (ρ^κ - 1)/(κ(ρ - 1)) + α * ( (ρ^κ - 1)/ρ^κ - ln(ρ) ) ]
+- Seliger (explizit): η_S = 1 - (1 / r^(κ - 1)) * [ (ρ^κ - 1)/(κ(ρ - 1)) + α * ((ρ^κ - 1)/ρ^κ - ln(ρ)) ]
 - Seliger (vereinfacht): η_S = (1 - α) * η_D + α * η_O
 """)
 
