@@ -2,14 +2,14 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Großer Stil
+# Plot-Style: explizit groß
 plt.rcParams.update({
-    'font.size': 18,
-    'axes.titlesize': 20,
-    'axes.labelsize': 18,
-    'xtick.labelsize': 16,
-    'ytick.labelsize': 16,
-    'legend.fontsize': 18,
+    'font.size': 20,
+    'axes.titlesize': 22,
+    'axes.labelsize': 20,
+    'xtick.labelsize': 18,
+    'ytick.labelsize': 18,
+    'legend.fontsize': 20,
     'lines.linewidth': 3
 })
 
@@ -20,18 +20,13 @@ def otto_efficiency(r, kappa):
 def diesel_efficiency(r, rho, kappa):
     return 1 - (1 / r**(kappa - 1)) * ((rho**kappa - 1) / (kappa * (rho - 1)))
 
+# Näherung für Seliger-Wirkungsgrad
 def seliger_efficiency(r, rho, alpha, kappa):
     eta_diesel = diesel_efficiency(r, rho, kappa)
     eta_otto = otto_efficiency(r, kappa)
     return (1 - alpha) * eta_diesel + alpha * eta_otto
 
-# Zustandspunkte beschriften
-def annotate_states(ax, V, P, labels):
-    for i, label in enumerate(labels):
-        ax.annotate(label, (V[i], P[i]), textcoords="offset points", xytext=(-15, 15),
-                    fontsize=18, color="black", arrowprops=dict(arrowstyle='->', lw=1.5))
-
-# Farben für Prozessschritte
+# Farben
 colors = {
     "kompression": "blue",
     "isochor": "orange",
@@ -40,12 +35,17 @@ colors = {
     "waermeabgabe": "gray"
 }
 
-# Hauptdiagrammfunktion
+def annotate_states(ax, V, P, labels):
+    for i, label in enumerate(labels):
+        ax.annotate(label, (V[i], P[i]), textcoords="offset points", xytext=(-15, 15),
+                    fontsize=20, color="black", arrowprops=dict(arrowstyle='->', lw=1.5))
+
+# Diagramm-Plotter
 def plot_processes(r, rho, kappa, alpha, selected_takt):
     V1 = 1.0
     V2 = V1 / r
     V3 = V2 * rho
-    fig, axs = plt.subplots(1, 3, figsize=(24, 8))
+    fig, axs = plt.subplots(1, 3, figsize=(30, 10))
 
     # === OTTO ===
     axs[0].set_title(f'Otto-Prozess\nη = {otto_efficiency(r, kappa)*100:.2f} %')
@@ -119,36 +119,29 @@ def plot_processes(r, rho, kappa, alpha, selected_takt):
     if selected_takt in ["Alle Takte", "Nur Verbrennung/Expansion"]:
         V_current = V2
         p_current = p2
-        labels = ["2"]
         if alpha > 0:
             p_iso = np.linspace(p_current, p_current * (1 + alpha * 2.5), 20)
             axs[2].plot(np.ones_like(p_iso)*V2, p_iso, label="2→3 isochore Verbrennung", color=colors["isochor"])
             p_current = p_iso[-1]
-            labels.append("3")
 
         if alpha < 1:
             V_iso2 = np.linspace(V2, V3, 100)
             axs[2].plot(V_iso2, np.ones_like(V_iso2)*p_current, label="3→4 isobare Verbrennung", color=colors["isobar"])
             V_current = V3
-            labels.append("4")
 
         V_exp = np.linspace(V_current, V1, 100)
         p_exp = p_current * (V_current / V_exp)**kappa
-        axs[2].plot(V_exp, p_exp, label="4→5 Expansion", color=colors["expansion"])
+        axs[2].plot(V_exp, p_exp, label="Expansion", color=colors["expansion"])
         p5 = p_exp[-1]
     else:
         p5 = p2
 
     if selected_takt in ["Alle Takte", "Nur Wärmeabgabe"]:
-        axs[2].plot(np.ones(20)*V1, np.linspace(p5, p1, 20), label="5→1 Wärmeabgabe", color=colors["waermeabgabe"])
+        axs[2].plot(np.ones(20)*V1, np.linspace(p5, p1, 20), label="Wärmeabgabe", color=colors["waermeabgabe"])
 
     axs[2].set_xlabel("Volumen (V)")
     axs[2].legend()
     axs[2].grid(True)
-    if selected_takt == "Alle Takte":
-        annotate_states(axs[2], [V1, V2, V2, V3, V1],
-                        [p1, p2, p_current, p_current, p_exp[-1]],
-                        ["1", "2", "3", "4", "5"][:5 if alpha < 1 else 4])
 
     plt.tight_layout()
     return fig
@@ -180,25 +173,17 @@ with st.sidebar:
         "Nur Wärmeabgabe"
     ])
 
-    st.markdown("---")
-    st.markdown("### 📐 Formeln")
-    st.markdown(r"""
-- Kompression: $r = \frac{V_1}{V_2}$
-- Spreizung: $\rho = \frac{V_3}{V_2}$
-- Otto-Wirkungsgrad: $\eta_O = 1 - \frac{1}{r^{\kappa - 1}}$
-- Diesel-Wirkungsgrad: $\eta_D = 1 - \frac{1}{r^{\kappa - 1}} \cdot \frac{\rho^{\kappa} - 1}{\kappa(\rho - 1)}$
-- Seliger: $\eta_S = (1 - \alpha)\cdot \eta_D + \alpha \cdot \eta_O$
+st.markdown("### 📐 Wirkungsgrad-Formeln")
+st.markdown(r"""
+- **Otto**:  \(\eta_O = 1 - \frac{1}{r^{\kappa - 1}}\)  
+- **Diesel**:  \(\eta_D = 1 - \frac{1}{r^{\kappa - 1}} \cdot \frac{\rho^\kappa - 1}{\kappa(\rho - 1)}\)  
+- **Seliger (explizit)**:  
+  \[
+  \eta_S = 1 - \frac{1}{r^{\kappa - 1}} \cdot \left[ \frac{\rho^\kappa - 1}{\kappa(\rho - 1)} + \alpha \cdot \left( \frac{\rho^\kappa - 1}{\rho^\kappa} - \ln(\rho) \right) \right]
+  \]  
+- **Seliger (im Code vereinfacht)**:  
+  \(\eta_S = (1 - \alpha) \cdot \eta_D + \alpha \cdot \eta_O\)
 """, unsafe_allow_html=True)
-
-# Hauptanzeige
-st.markdown("### 🔍 Gemeinsame Prämissen")
-st.markdown("""
-- Ideales Gasverhalten  
-- Isentrope Kompression und Expansion  
-- Konstante Gasmasse  
-- Keine Wärmeverluste  
-- Eingetragene Wärme beim Verbrennungsschritt  
-""")
 
 fig = plot_processes(r, rho, kappa, alpha, selected_takt)
 st.pyplot(fig)
