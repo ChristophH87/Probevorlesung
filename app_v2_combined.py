@@ -46,6 +46,11 @@ def plot_processes(r, rho, kappa, alpha, show_komp, show_isochor, show_isobar, s
         ax.set_xlabel("Volumen (V)")
         ax.set_ylabel("Druck (p)")
         ax.grid(True)
+        fontsize = 44
+        ax.text(V1, 1 / V1**kappa, "1", fontsize=fontsize)
+        ax.text(V2, 1 / V2**kappa, "2", fontsize=fontsize)
+        ax.text(V3, 1 / V3**kappa, "3", fontsize=fontsize)
+        ax.text(V1, 1 / V1**kappa * 0.6, "4", fontsize=fontsize)
 
         if show_komp:
             Vc = np.linspace(V1, V2, 100)
@@ -129,6 +134,11 @@ with st.sidebar:
     show_isobar = st.checkbox("isobare Verbrennung", value=True)
     show_exp = st.checkbox("Expansion", value=True)
     show_abgabe = st.checkbox("Wärmeabgabe", value=True)
+
+    st.markdown("#### Formelübersicht")
+    st.markdown("- r = V1 / V2")
+    st.markdown("- ρ = V3 / V2")
+    st.markdown("- κ = cp / cv")
 
 st.markdown(r'''
 ### Wirkungsgradformeln
