@@ -2,21 +2,20 @@
 # 1. Vergrößerten Diagrammen (figsize explizit größer und Streamlit-Anzeige optimiert)
 # 2. Korrekt gerenderten Latex-Formeln
 # 3. Checkboxen für Prozessabschnitte getrennt nach Verbrennung und Expansion
-# 4. Schriftgrößen um 60% weiter erhöht
 
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Schrift- und Liniengröße weiter erhöht
+# Schrift- und Liniengröße zurücksetzen
 plt.rcParams.update({
-    'font.size': 70,
-    'axes.titlesize': 78,
-    'axes.labelsize': 76,
-    'xtick.labelsize': 64,
-    'ytick.labelsize': 64,
-    'legend.fontsize': 70,
-    'lines.linewidth': 12
+    'font.size': 44,
+    'axes.titlesize': 52,
+    'axes.labelsize': 48,
+    'xtick.labelsize': 40,
+    'ytick.labelsize': 40,
+    'legend.fontsize': 44,
+    'lines.linewidth': 8
 })
 
 # Wirkungsgrad-Funktionen
@@ -129,15 +128,14 @@ with st.sidebar:
     show_exp = st.checkbox("Expansion", value=True)
     show_abgabe = st.checkbox("Wärmeabgabe", value=True)
 
-st.markdown(r'''
+# Wirkungsgradformeln als einfache Textblöcke anzeigen
+st.markdown("""
 ### η-Wirkungsgradformeln
-<ul>
-<li>Otto: \(\eta_O = 1 - \frac{1}{r^{\kappa - 1}}\)</li>
-<li>Diesel: \(\eta_D = 1 - \frac{1}{r^{\kappa - 1}} \cdot \frac{\rho^{\kappa} - 1}{\kappa(\rho - 1)}\)</li>
-<li>Seliger (explizit): \(\eta_S = 1 - \frac{1}{r^{\kappa - 1}} \left[ \frac{\rho^\kappa - 1}{\kappa(\rho - 1)} + \alpha \left( \frac{\rho^\kappa - 1}{\rho^\kappa} - \ln(\rho) \right) \right]\)</li>
-<li>Seliger (vereinfacht): \(\eta_S = (1 - \alpha) \cdot \eta_D + \alpha \cdot \eta_O\)</li>
-</ul>
-''', unsafe_allow_html=True)
+- Otto: η_O = 1 - 1 / r^(κ - 1)
+- Diesel: η_D = 1 - (1 / r^(κ - 1)) * ((ρ^κ - 1) / (κ * (ρ - 1)))
+- Seliger (explizit): η_S = 1 - (1 / r^(κ - 1)) * [ (ρ^κ - 1)/(κ(ρ - 1)) + α * ( (ρ^κ - 1)/ρ^κ - ln(ρ) ) ]
+- Seliger (vereinfacht): η_S = (1 - α) * η_D + α * η_O
+""")
 
 fig = plot_processes(r, rho, kappa, alpha, show_komp, show_isochor, show_isobar, show_exp, show_abgabe)
 st.pyplot(fig, use_container_width=True)
