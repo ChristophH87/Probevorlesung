@@ -46,8 +46,6 @@ def plot_processes(r, rho, kappa, alpha, show_komp, show_isochor, show_isobar, s
         ax.set_xlabel("Volumen (V)")
         ax.set_ylabel("Druck (p)")
         ax.grid(True)
-
-            ax.plot([V2, V1], [(1 / V2**(kappa*0.95)) * 0.95, (1 / V1**(kappa*0.95)) * 0.95], linestyle='--', color='green', label='κ variabel')
         
 
         if show_komp:
@@ -132,8 +130,6 @@ with st.sidebar:
     show_isobar = st.checkbox("isobare Verbrennung", value=True)
     show_exp = st.checkbox("Expansion", value=True)
     show_abgabe = st.checkbox("Wärmeabgabe", value=True)
-
-    
 
     st.markdown("#### Formelübersicht")
     st.markdown("- r = V1 / V2")
