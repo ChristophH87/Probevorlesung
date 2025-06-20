@@ -111,9 +111,13 @@ st.set_page_config(layout="wide")
 with st.sidebar:
     st.markdown("## 🔧 Einstellungen")
     r = st.slider("Kompressionsverhältnis r", 10.0, 25.0, 18.0, 0.1)
+st.caption("Typisch: 16–20 für moderne Diesel, 10–14 für Ottomotoren")
     rho = st.slider("Spreizungsverhältnis ρ", 1.1, 3.0, 2.0, 0.01)
+st.caption("Typisch: 1.8–2.5 bei Direkteinspritzung")
     kappa = st.slider("Adiabatenexponent κ", 1.2, 1.67, 1.4, 0.01)
+st.caption("Typisch: 1.3–1.4 für Luft bei Raumtemperatur")
     alpha = st.slider("Anteil isochorer Verbrennung (Seliger)", 0.0, 1.0, 0.5, 0.05)
+st.caption("0 = Diesel, 1 = Otto, typisch ca. 0.3–0.6")
 
     st.markdown("---")
     st.markdown("### 🔍 Abschnitte anzeigen")
