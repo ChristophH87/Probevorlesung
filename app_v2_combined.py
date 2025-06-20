@@ -7,15 +7,15 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Schrift- und Liniengröße explizit setzen
+# Schrift- und Liniengröße explizit (noch größer)
 plt.rcParams.update({
-    'font.size': 22,
-    'axes.titlesize': 26,
-    'axes.labelsize': 24,
-    'xtick.labelsize': 20,
-    'ytick.labelsize': 20,
-    'legend.fontsize': 22,
-    'lines.linewidth': 4
+    'font.size': 44,
+    'axes.titlesize': 52,
+    'axes.labelsize': 48,
+    'xtick.labelsize': 40,
+    'ytick.labelsize': 40,
+    'legend.fontsize': 44,
+    'lines.linewidth': 8
 })
 
 # Wirkungsgrad-Funktionen
@@ -43,7 +43,7 @@ def plot_processes(r, rho, kappa, alpha, show_komp, show_verbrennung, show_abgab
     V1 = 1.0
     V2 = V1 / r
     V3 = V2 * rho
-    fig, axs = plt.subplots(1, 3, figsize=(36, 12))
+    fig, axs = plt.subplots(1, 3, figsize=(48, 16))
 
     processes = ['Otto', 'Diesel', 'Seliger']
     for idx, name in enumerate(processes):
@@ -122,16 +122,15 @@ with st.sidebar:
     show_verbrennung = st.checkbox("Verbrennung & Expansion", value=True)
     show_abgabe = st.checkbox("Wärmeabgabe", value=True)
 
-st.markdown("""
+# Formeln anzeigen mit Markdown statt LaTeX-Block (für Streamlit-Support)
+st.markdown(r'''
 ### η-Wirkungsgradformeln
-- Otto: $\eta_O = 1 - \frac{1}{r^{\kappa - 1}}$
-- Diesel: $\eta_D = 1 - \frac{1}{r^{\kappa - 1}} \cdot \frac{\rho^{\kappa} - 1}{\kappa(\rho - 1)}$
-- Seliger (explizit):
-\[ 
-\eta_S = 1 - \frac{1}{r^{\kappa - 1}} \left[ \frac{\rho^\kappa - 1}{\kappa(\rho - 1)} + \alpha \left( \frac{\rho^\kappa - 1}{\rho^\kappa} - \ln(\rho) \right) \right]
-\]
-- Seliger (vereinfacht im Code): $\eta_S = (1 - \alpha) \cdot \eta_D + \alpha \cdot \eta_O$
-""")
+- Otto: \(\eta_O = 1 - \frac{1}{r^{\kappa - 1}}\)
+- Diesel: \(\eta_D = 1 - \frac{1}{r^{\kappa - 1}} \cdot \frac{\rho^{\kappa} - 1}{\kappa(\rho - 1)}\)
+- Seliger (explizit):  
+\(\eta_S = 1 - \frac{1}{r^{\kappa - 1}} \left[ \frac{\rho^\kappa - 1}{\kappa(\rho - 1)} + \alpha \left( \frac{\rho^\kappa - 1}{\rho^\kappa} - \ln(\rho) \right) \right]\)  
+- Seliger (vereinfacht): \(\eta_S = (1 - \alpha) \cdot \eta_D + \alpha \cdot \eta_O\)
+''')
 
 fig = plot_processes(r, rho, kappa, alpha, show_komp, show_verbrennung, show_abgabe)
 st.pyplot(fig, use_container_width=True)
