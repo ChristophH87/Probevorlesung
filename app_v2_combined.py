@@ -1,5 +1,4 @@
-# Der folgende Code ist eine aktualisierte Version von `app.py` mit:
-# - Bruchdarstellung der Wirkungsgradformeln als lesbarer Text (kein LaTeX)
+# Der folgende Code ist eine aktualisierte Version von `app.py` mit LaTeX-Darstellung der Wirkungsgradformeln
 
 import streamlit as st
 import numpy as np
@@ -124,13 +123,13 @@ with st.sidebar:
     show_exp = st.checkbox("Expansion", value=True)
     show_abgabe = st.checkbox("Wärmeabgabe", value=True)
 
-st.markdown("""
+st.markdown(r'''
 ### Wirkungsgradformeln
-- Otto: η_O = 1 - (1 / r^(κ - 1))
-- Diesel: η_D = 1 - (1 / r^(κ - 1)) * ((ρ^κ - 1) / (κ * (ρ - 1)))
-- Seliger (explizit): η_S = 1 - (1 / r^(κ - 1)) * [ (ρ^κ - 1)/(κ(ρ - 1)) + α * ((ρ^κ - 1)/ρ^κ - ln(ρ)) ]
-- Seliger (vereinfacht): η_S = (1 - α) * η_D + α * η_O
-""")
+- Otto: $\eta_O = 1 - \frac{1}{r^{\kappa - 1}}$
+- Diesel: $\eta_D = 1 - \frac{1}{r^{\kappa - 1}} \cdot \frac{\rho^{\kappa} - 1}{\kappa(\rho - 1)}$
+- Seliger (explizit): $\eta_S = 1 - \frac{1}{r^{\kappa - 1}} \left[ \frac{\rho^{\kappa} - 1}{\kappa(\rho - 1)} + \alpha \left( \frac{\rho^{\kappa} - 1}{\rho^{\kappa}} - \ln(\rho) \right) \right]$
+- Seliger (vereinfacht): $\eta_S = (1 - \alpha) \cdot \eta_D + \alpha \cdot \eta_O$
+''')
 
 fig = plot_processes(r, rho, kappa, alpha, show_komp, show_isochor, show_isobar, show_exp, show_abgabe)
 st.pyplot(fig, use_container_width=True)
