@@ -39,7 +39,7 @@ def plot_processes(r, rho, kappa, alpha, show_komp, show_isochor, show_isobar, s
     V3 = V2 * rho
     fig, axs = plt.subplots(1, 3, figsize=(48, 16))
 
-    processes = ['Otto', 'Diesel', 'Seliger']
+    processes = ['Otto', 'Diesel', 'Seiliger']
     for idx, name in enumerate(processes):
         ax = axs[idx]
         ax.set_title(f"{name}-Prozess")
@@ -120,7 +120,7 @@ with st.sidebar:
     kappa = st.slider("Adiabatenexponent κ", 1.2, 1.67, 1.4, 0.01)
     st.caption("Typisch: 1.3–1.4 für Luft bei Raumtemperatur")
 
-    alpha = st.slider("Anteil isochorer Verbrennung (Seliger)", 0.0, 1.0, 0.5, 0.05)
+    alpha = st.slider("Anteil isochorer Verbrennung (Seiliger)", 0.0, 1.0, 0.5, 0.05)
     st.caption("0 = Diesel, 1 = Otto, typisch ca. 0.3–0.6")
 
     st.markdown("---")
