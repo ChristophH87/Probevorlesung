@@ -20,7 +20,7 @@ def otto_efficiency(r, kappa):
 def diesel_efficiency(r, rho, kappa):
     return 1 - (1 / r**(kappa - 1)) * ((rho**kappa - 1) / (kappa * (rho - 1)))
 
-def seliger_efficiency(r, rho, alpha, kappa):
+def seiliger_efficiency(r, rho, alpha, kappa):
     eta_diesel = diesel_efficiency(r, rho, kappa)
     eta_otto = otto_efficiency(r, kappa)
     return (1 - alpha) * eta_diesel + alpha * eta_otto
@@ -101,7 +101,7 @@ def plot_processes(r, rho, kappa, alpha, show_komp, show_isochor, show_isobar, s
         eta = {
             'Otto': otto_efficiency(r, kappa),
             'Diesel': diesel_efficiency(r, rho, kappa),
-            'Seliger': seliger_efficiency(r, rho, alpha, kappa)
+            'seiliger': seiliger_efficiency(r, rho, alpha, kappa)
         }[name]
         ax.legend(title=f"Wirkungsgrad: {eta*100:.2f} %")
 
