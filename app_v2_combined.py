@@ -78,7 +78,7 @@ def plot_processes(r, rho, kappa, alpha, show_komp, show_isochor, show_isobar, s
                 ax.plot(V_exp, p_exp, color=colors['expansion'], label="Expansion")
                 p4 = p_exp[-1]
 
-        elif name == 'Seliger':
+        elif name == 'Seiliger':
             V_current = V2
             p_current = p2
             if show_isochor and alpha > 0:
@@ -140,8 +140,8 @@ st.markdown(r'''
 ### Wirkungsgradformeln
 - Otto: $η_O = 1 - \frac{1}{r^{\kappa - 1}}$
 - Diesel: $η_D = 1 - \frac{1}{r^{\kappa - 1}} \cdot \frac{\rho^{\kappa} - 1}{\kappa(\rho - 1)}$
-- Seliger (explizit): $η_S = 1 - \frac{1}{r^{\kappa - 1}} \left[ \frac{\rho^{\kappa} - 1}{\kappa(\rho - 1)} + \alpha \left( \frac{\rho^{\kappa} - 1}{\rho^{\kappa}} - \ln(\rho) \right) \right]$
-- Seliger (vereinfacht): $η_S = (1 - \alpha) \cdot \eta_D + \alpha \cdot \eta_O$
+- Seiliger (explizit): $η_S = 1 - \frac{1}{r^{\kappa - 1}} \left[ \frac{\rho^{\kappa} - 1}{\kappa(\rho - 1)} + \alpha \left( \frac{\rho^{\kappa} - 1}{\rho^{\kappa}} - \ln(\rho) \right) \right]$
+- Seiliger (vereinfacht): $η_S = (1 - \alpha) \cdot \eta_D + \alpha \cdot \eta_O$
 ''')
 
 fig = plot_processes(r, rho, kappa, alpha, show_komp, show_isochor, show_isobar, show_exp, show_abgabe)
