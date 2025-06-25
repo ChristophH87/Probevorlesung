@@ -101,7 +101,7 @@ def plot_processes(r, rho, kappa, alpha, show_komp, show_isochor, show_isobar, s
         eta = {
             'Otto': otto_efficiency(r, kappa),
             'Diesel': diesel_efficiency(r, rho, kappa),
-            'seiliger': seiliger_efficiency(r, rho, alpha, kappa)
+            'Seiliger': seiliger_efficiency(r, rho, alpha, kappa)
         }[name]
         ax.legend(title=f"Wirkungsgrad: {eta*100:.2f} %")
 
